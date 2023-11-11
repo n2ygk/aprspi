@@ -1,13 +1,13 @@
 [Unit]
 Description=APRS digipeater
-Documentation=man:aprsdigi(8) http://aprsdigi.sf.net
+Documentation=man:aprsdigi(8) https://github.com/n2ygk/aprsdigi
 Wants=aprsbeacon.service
 After=soundmodem.service
 
 [Service]
 EnvironmentFile=/etc/ax25/aprsdigi.conf
 ExecStart=/usr/sbin/aprsdigi $APRSDIGI_CFG
-StandardOutput=syslog
+StandardOutput=journal
 
 [Install]
 WantedBy=multi-user.target
