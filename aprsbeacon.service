@@ -1,7 +1,6 @@
 [Unit]
 Description=APRS digipeater beacon (invokes ax25-tools beacon)
-#Wants=aprsdigi.service
-After=soundmodem.service
+After=aprsdigi.service
 
 [Service]
 EnvironmentFile=/etc/ax25/aprsdigi.conf
