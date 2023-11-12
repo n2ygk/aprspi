@@ -69,6 +69,7 @@ n2ygk@n2ygk:~ $ cd src
 n2ygk@n2ygk:~/src $ git clone https://github.com/n2ygk/aprspi.git
 Cloning into 'aprspi'...
 ...
+n2ygk@n2ygk:~/src $ cd aprspi
 # get a copy of the .deb file from a prior build into ~/src
 # or just let the installer patch and rebuild it from source:
 n2ygk@n2ygk:~/src/aprspi $ sudo ./install.sh 
