@@ -1,15 +1,62 @@
 #!/usr/bin/bash
 # needs to run as root and inherit these from the environment:
-# TODO get from env
-MYCALL=N2YGK
-PASSCODE=XXXXX
-BEACON='!4116.30N/07355.57W#PHG7300 testing de N2YGK'
+# all configuration is keyed off the hostname.
+MYCALL=`hostname`
+PASSCODE=`python tools/passcode.py $MYCALL`
+# for a wide digi: ALIASES="RELAY,WIDE,TRACE" and TRACE="--trace TRACE --trace WIDE"
+# for a fill-in digi: ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
+
+case $MYCALL in
+    n2ygk)
+	BEACON='!4116.30N/07355.57W#PHG7300/fill in digipeater n2ygk@weca.org'
+	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
+	TRACE=""
+	;;
+    w2aee)
+	BEACON='4048.56N/07357.61W#PHG7430/W-R-T www.w2aee.columbia.edu'
+	ALIASES="RELAY,WIDE,TRACE"
+	TRACE="--trace TRACE --trace WIDE"
+	;;
+    wb2zii)
+	BEACON='4104.67N/07348.25W#PHG7550/W-R-T www.weca.org'
+	ALIASES="RELAY,WIDE,TRACE"
+	TRACE="--trace TRACE --trace WIDE"
+	;;
+    wb2zii-12)
+	BEACON='!4054.  N/07349.  W#PHG7300/fill-in digipeater www.weca.org'
+	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
+	TRACE=""
+	;;
+    wb2zii-13)
+	BEACON='!4119.  N/07333.  W#PHG7530/ fill-in digipeater www.weca.org'
+	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
+	TRACE=""
+	;;
+    wb2zii-14)
+	BEACON='!4118.  N/07353.  W#PHG7300/fill-in digipeater www.weca.org'
+	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
+	TRACE=""
+	;;
+    wb2zii-15)
+	BEACON='!4116.  N/07348.  W#PHG7300/fill-in digipeater www.weca.org'
+	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
+	TRACE=""
+	;;
+    *)
+	BEACON='aprsdigi not configured de $MYCALL'
+	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
+	TRACE=""
+	;;
+esac
+
+# TODO ALIASES vs. fill-in
+
 RXGAIN=12 # Mic capture volume
 TXGAIN=17 # Speaker playback volume
 
 set -x
 
-# find out which ALSA sound card the DINAH shows up as
+# Find out which ALSA sound card the DINAH shows up as. This changes based on order of boot/usb hotplug.
 #readlink /dev/snd/by-id/usb-C-Media_Electronics_Inc._USB_Audio_Device-00
 card=`readlink /dev/snd/by-id/usb-C-Media_Electronics_Inc._USB_Audio_Device* | sed -e 's/^.*\(.\)$/\1/'`
 if [ -z "$card" ]; then
@@ -21,6 +68,11 @@ apt-get install -y ax25-tools
 apt-get install -y ax25-apps
 # apt-get install -y soundmodem
 # have to install my patched version.
+if [ -f soundmodem_*.deb ]; then
+    dpkg -i soundmodem_*.deb
+else # it's missing so build it
+./build-soundmodem.sh
+fi
 apt-get install -y aprsdigi
 apt-get install -y aprx
 apt-get install -y emacs
@@ -57,9 +109,7 @@ cat >/etc/ax25/soundmodem.conf <<EOF
 EOF
 
 cat >/etc/ax25/aprsdigi.conf <<EOF
-# configuration for WIDE digipeater
-APRSDIGI_CFG="--kill_dupes --kill_loops --subst_mycall  --x1j4_xlate \
- --logfile /var/log/aprsdigi.log --trace TRACE --trace WIDE --interface ax25:sm0:RELAY,WIDE,TRACE,"
+APRSDIGI_CFG="--kill_dupes --kill_loops --subst_mycall --x1j4_xlate --logfile /var/log/aprsdigi.log ${TRACE} --interface ax25:sm0:${ALIASES}"
 BEACON_DEST='APRS via WIDE2-2'
 BEACON_PORT=sm0
 BEACON_TEXT='$BEACON'
