@@ -15,7 +15,8 @@ cp fix-missing-hid-dinah-gpio.patch ${BASEDIR}/src/${srcdir}/debian/patches/
 echo fix-missing-hid-dinah-gpio.patch >${BASEDIR}/src/${srcdir}/debian/patches/series
 (
     cd ${BASEDIR}/src/$srcdir
+    export EMAIL="n2ygk@weca.org"
     dch -i "hidraw cm119b gpio ptt support"
-    EMAIL="n2ygk@weca.org" debuild -b -uc -us
+    debuild -b -uc -us
 )
 
