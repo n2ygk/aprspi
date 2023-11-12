@@ -68,8 +68,8 @@ apt-get install -y ax25-tools
 apt-get install -y ax25-apps
 # apt-get install -y soundmodem
 # have to install my patched version.
-if [ -f soundmodem_*.deb ]; then
-    dpkg -i soundmodem_*.deb
+if [ -f ../soundmodem_*.deb ]; then
+    dpkg -i ../soundmodem_*.deb
 else # it's missing so build it
 ./build-soundmodem.sh
 fi
@@ -145,4 +145,7 @@ cp logrotate.aprsdigi /etc/logrotate.d
 systemctl enable soundmodem
 systemctl enable aprsdigi
 systemctl enable aprsbeacon
+
+systemctl start soundmodem
+systemctl start aprsdigi
 
