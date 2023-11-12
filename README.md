@@ -1,4 +1,4 @@
-# An APRS digipeater running on a Raspberry Pi
+># An APRS digipeater running on a Raspberry Pi
 
 <!-- toc -->
 
@@ -36,4 +36,40 @@ dropped by Debian-hams and/or their upstream repos have gone missing.
   (Currently I only use it for APRS-IS igate functionality.)
 * https://github.com/n2ygk/aprsdigi My AX.25 APRS RF digipeater.
 
+Everything is configured based on callsign. See [install.sh](./install.sh).
 
+To configure and start the aprsdigi:
+* Use Raspberry Pi Imager and select:
+  * Raspberry Pi Device: No Filtering
+  * OS: Raspberry Pi OS (other)/Raspberry Pi OS Lite (64-bit): Debian Bookworm with no desktop environment.
+  * Select the CF media to write to.
+  * Edit options:
+    * General
+      * hostname: a simple callsign-SSID
+      * username/password
+      * initial bootstrap WiFi LAN
+    * Services
+      * Enable SSH w/public-key authentication only
+* Boot up with the CF just written and wait for one-time setup.
+* ssh in just to make sure.
+* Either tar up this directory and copy it to the Pi or use git to clone it:
+```
+$ ssh n2ygk@n2ygk.local
+Linux n2ygk 6.1.0-rpi4-rpi-v8 #1 SMP PREEMPT Debian 1:6.1.54-1+rpt2 (2023-10-05) aarch64
+...
+Last login: Sun Nov 12 16:11:31 2023 from 192.168.1.154
+n2ygk@n2ygk:~ $ sudo -s
+root@n2ygk:/home/n2ygk# apt-get update
+...
+root@n2ygk:/home/n2ygk# apt-get install -y git
+root@n2ygk:/home/n2ygk# exit
+exit
+n2ygk@n2ygk:~ $ mkdir src
+n2ygk@n2ygk:~ $ cd src
+n2ygk@n2ygk:~/src $ git clone https://github.com/n2ygk/aprspi.git
+Cloning into 'aprspi'...
+...
+# get a copy of the .deb file from a prior build into ~/src
+# or just let the installer patch and rebuild it from source:
+n2ygk@n2ygk:~/src/aprspi $ sudo ./install.sh 
+```

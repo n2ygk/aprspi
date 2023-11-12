@@ -71,7 +71,8 @@ apt-get install -y ax25-apps
 if [ -f ../soundmodem_*.deb ]; then
     dpkg -i ../soundmodem_*.deb
 else # it's missing so build it
-./build-soundmodem.sh
+# this script is running under sudo, so run the build as the actual user
+su ${USER} -c ./build-soundmodem.sh
 fi
 apt-get install -y aprsdigi
 apt-get install -y aprx
