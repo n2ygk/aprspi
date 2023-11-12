@@ -11,6 +11,6 @@ StandardOutput=journal
 
 [Install]
 WantedBy=multi-user.target
-Also=aprsbeacon.service
+#Also=aprsbeacon.service
 
 

@@ -1,6 +1,6 @@
 [Unit]
 Description=APRS digipeater beacon (invokes ax25-tools beacon)
-Wants=aprsdigi.service
+#Wants=aprsdigi.service
 After=soundmodem.service
 
 [Service]
