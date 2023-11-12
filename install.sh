@@ -70,14 +70,15 @@ fi
 apt-get install -y libax25
 apt-get install -y ax25-tools
 apt-get install -y ax25-apps
+
 # apt-get install -y soundmodem
 # have to install my patched version.
-if [ -f ../soundmodem_*.deb ]; then
-    dpkg -i ../soundmodem_*.deb
-else # it's missing so build it
-# this script is running under sudo, so run the build as the actual user
-su ${USER} -c ./build-soundmodem.sh
+if [ ! -f ../soundmodem_*.deb ]; then
+    # this script is running under sudo, so run the build as the actual user
+    su ${USER} -c ./build-soundmodem.sh
 fi
+dpkg -i ../soundmodem_*.deb
+
 apt-get install -y aprsdigi
 apt-get install -y aprx
 apt-get install -y emacs
