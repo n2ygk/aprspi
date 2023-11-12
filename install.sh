@@ -70,9 +70,9 @@ fi
 apt-get install -y libax25
 apt-get install -y ax25-tools
 apt-get install -y ax25-apps
-
-# apt-get install -y soundmodem
 # have to install my patched version.
+# but first need to get the latest version (for stupid reasons)
+apt-get install -y soundmodem
 if [ ! -f ../soundmodem_*.deb ]; then
     # this script is running under sudo, so run the build as the actual user
     su ${USER} -c ./build-soundmodem.sh
