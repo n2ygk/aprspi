@@ -3,49 +3,53 @@
 # all configuration is keyed off the hostname.
 MYCALL=`hostname`
 PASSCODE=`python tools/passcode.py $MYCALL`
-# for a wide digi: ALIASES="RELAY,WIDE,TRACE" and TRACE="--trace TRACE --trace WIDE"
-# for a fill-in digi: ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
+# for a wide digi do WIDEn-N
+WIDEALIASES="RELAY,WIDE,TRACE"
+WIDETRACE="--trace TRACE --trace WIDE"
+# for a fill-in digi only do WIDE1-1, not WIDEn-N
+FILLALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
+FILLTRACE=""
 
 case $MYCALL in
     n2ygk)
 	BEACON='!4116.30N/07355.57W#PHG7300/fill in digipeater n2ygk@weca.org'
-	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
-	TRACE=""
+	ALIASES=$FILLALIASES
+	TRACE=$FILLTRACE
 	;;
     w2aee)
 	BEACON='4048.56N/07357.61W#PHG7430/W-R-T www.w2aee.columbia.edu'
-	ALIASES="RELAY,WIDE,TRACE"
-	TRACE="--trace TRACE --trace WIDE"
+	ALIASES=$WIDEALIASES
+	TRACE=$WIDETRACE
 	;;
     wb2zii)
 	BEACON='4104.67N/07348.25W#PHG7550/W-R-T www.weca.org'
-	ALIASES="RELAY,WIDE,TRACE"
-	TRACE="--trace TRACE --trace WIDE"
+	ALIASES=$WIDEALIASES
+	TRACE=$WIDETRACE
 	;;
     wb2zii-12)
 	BEACON='!4054.  N/07349.  W#PHG7300/fill-in digipeater www.weca.org'
-	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
-	TRACE=""
+	ALIASES=$FILLALIASES
+	TRACE=$FILLTRACE
 	;;
     wb2zii-13)
 	BEACON='!4119.  N/07333.  W#PHG7530/ fill-in digipeater www.weca.org'
-	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
-	TRACE=""
+	ALIASES=$FILLALIASES
+	TRACE=$FILLTRACE
 	;;
     wb2zii-14)
 	BEACON='!4118.  N/07353.  W#PHG7300/fill-in digipeater www.weca.org'
-	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
-	TRACE=""
+	ALIASES=$FILLALIASES
+	TRACE=$FILLTRACE
 	;;
     wb2zii-15)
 	BEACON='!4116.  N/07348.  W#PHG7300/fill-in digipeater www.weca.org'
-	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
-	TRACE=""
+	ALIASES=$FILLALIASES
+	TRACE=$FILLTRACE
 	;;
     *)
 	BEACON='aprsdigi not configured de $MYCALL'
-	ALIASES="RELAY,TRACE,WIDE1-1,TRACE1-1"
-	TRACE=""
+	ALIASES=$FILLALIASES
+	TRACE=$FILLTRACE
 	;;
 esac
 
