@@ -17,7 +17,7 @@
 """
 Contains a function for generating passcode from callsign
 """
-
+import sys
 
 def passcode(callsign):
     """
@@ -32,3 +32,7 @@ def passcode(callsign):
         code ^= ord(char) << (8 if not i % 2 else 0)
 
     return code & 0x7fff
+
+
+if __name__ == '__main__':
+    print(passcode(sys.argv[1]))
