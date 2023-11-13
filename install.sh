@@ -151,7 +151,7 @@ cp logrotate.aprsdigi /etc/logrotate.d
 systemctl enable soundmodem
 systemctl enable aprsdigi
 systemctl enable aprsbeacon
-systemctl emable aprx
+systemctl enable aprx
 
 systemctl start soundmodem
 systemctl start aprsdigi
