@@ -148,6 +148,9 @@ cp aprsdigi.service aprsbeacon.service /lib/systemd/system/
 systemctl daemon-reload
 cp logrotate.aprsdigi /etc/logrotate.d
 
+# turn off avahi as it broadcasts on the AX.25 interface
+sudo apt-get remove -y avahi-daemon
+
 systemctl enable soundmodem
 systemctl enable aprsdigi
 systemctl enable aprsbeacon
