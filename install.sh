@@ -63,7 +63,7 @@ set -x
 # Have udev make a symlink for the DINAH soundcard as /dev/snd/DINAH
 # N.B. only works for a single soundcard and because the vendor/product IDs are relatively unique.
 cp 95-myusb.rules /lib/udev/rules.d
-systemctl reload udev
+systemctl restart udev
 
 # set the alsamixer levels
 amixer -c /dev/snd/DINAH sset Mic $RXGAIN
