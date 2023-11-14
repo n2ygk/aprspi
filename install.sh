@@ -60,11 +60,21 @@ TXGAIN=17 # Speaker playback volume
 
 set -x
 
+# Have udev make a symlink for the DINAH soundcard as /dev/snd/DINAH
+# N.B. only works for a single soundcard and because the vendor/product IDs are relatively unique.
+cp 95-myusb.rules /lib/udev/rules.d
+systemctl reload udev
+
+# set the alsamixer levels
+amixer -c /dev/snd/DINAH sset Mic $RXGAIN
+amixer -c /dev/snd/DINAH sset Speaker $TXGAIN
+alsactl store
+
 # Find out which ALSA sound card the DINAH shows up as. This changes based on order of boot/usb hotplug.
-#readlink /dev/snd/by-id/usb-C-Media_Electronics_Inc._USB_Audio_Device-00
-card=`readlink /dev/snd/by-id/usb-C-Media_Electronics_Inc._USB_Audio_Device* | sed -e 's/^.*\(.\)$/\1/'`
+card=`readlink /dev/snd/DINAH | sed -e 's/^.*\(.\)$/\1/'`
 if [ -z "$card" ]; then
     echo must plug in DINAH card before running this script.
+    exit 1
 fi
 
 apt-get install -y libax25
@@ -83,21 +93,12 @@ apt-get install -y aprsdigi
 apt-get install -y aprx
 apt-get install -y emacs
 
-# Have udev make a symlink for the soundcard? NO. Only needed for kissattach to a USB serial port.
-#cat >/lib/udev/rules.d/95-myusb.rules <<EOF
-#ACTION=="add", ATTRS{idVendor}=="0d8c", ATTRS{idProduct}=="0012", SYMLINK="mytnc", TAG+="systemd"
-#EOF
-
-# set the alsamixer levels
-sed -e "s/<%= @alsa_speaker_playback_volume %>/$TXGAIN/g" \
-    -e "s/<%= @alsa_pcm_capture_volume %>/$RXGAIN/g" \
-    < asound.state.erb >/var/lib/alsa/asound.state
-
 cat >/etc/ax25/axports <<EOF
 #portname	callsign	speed	paclen	window	description
 sm0	$MYCALL	1200	255	2	144.39 MHz (1200 bps)
 EOF
 
+# TODO figure out mapping from /dev/snd/DINAH to $card:
 cat >/etc/ax25/soundmodem.conf <<EOF
 <?xml version="1.0"?>
 <modem>

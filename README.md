@@ -74,3 +74,66 @@ n2ygk@n2ygk:~/src $ cd aprspi
 # or just let the installer patch and rebuild it from source:
 n2ygk@n2ygk:~/src/aprspi $ sudo ./install.sh 
 ```
+
+## Getting USB hotplug support to work
+
+Depending on random boot order, the DINAH USB soundcard can show up in different slots.
+To resolve this, add [95-myusb.rules](./95-myusb.rules) to /lib/udev/rules.d to symlink `/dev/snd/DINAH` to the appropriate ControlC* device:
+
+```
+# ls -l /dev/snd/
+total 0
+drwxr-xr-x 2 root root       60 Nov 14 12:22 by-id
+drwxr-xr-x 2 root root      100 Nov 14 12:22 by-path
+crw-rw---- 1 root audio 116,  0 Nov 13 17:40 controlC0
+crw-rw---- 1 root audio 116, 32 Nov 13 17:40 controlC1
+crw-rw---- 1 root audio 116, 64 Nov 14 12:22 controlC2
+lrwxrwxrwx 1 root root        9 Nov 14 12:22 DINAH -> controlC2
+crw-rw---- 1 root audio 116, 16 Nov 13 17:40 pcmC0D0p
+crw-rw---- 1 root audio 116, 48 Nov 13 17:40 pcmC1D0p
+crw-rw---- 1 root audio 116, 88 Nov 14 12:22 pcmC2D0c
+crw-rw---- 1 root audio 116, 80 Nov 14 12:22 pcmC2D0p
+crw-rw---- 1 root audio 116,  1 Nov 13 17:40 seq
+crw-rw---- 1 root audio 116, 33 Nov 13 17:40 timer
+```
+
+You can then reference the DINAH in ALSA using the symlinked name:
+```
+$ alsactl info /dev/snd/DINAH 
+#
+# Sound card
+#
+- card: 2
+  id: Device
+  name: USB Audio Device
+  longname: C-Media Electronics Inc. USB Audio Device at usb-3f980000.usb-1.2, full speed
+  driver_name: USB-Audio
+  mixer_name: USB Mixer
+  components: USB0d8c:0012
+  controls_count: 9
+  pcm:
+    - stream: PLAYBACK
+      devices:
+        - device: 0
+          id: USB Audio
+          name: USB Audio
+          subdevices:
+            - subdevice: 0
+              name: subdevice #0
+    - stream: CAPTURE
+      devices:
+        - device: 0
+          id: USB Audio
+          name: USB Audio
+          subdevices:
+            - subdevice: 0
+              name: subdevice #0
+
+```
+
+And you can go straight to the card in alsamixer:
+```
+$ alsamixer -c /dev/snd/DINAH
+```
+or use `amixer` to set levels from the command line.
+
