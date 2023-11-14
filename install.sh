@@ -55,7 +55,7 @@ esac
 
 # TODO ALIASES vs. fill-in
 
-RXGAIN=12 # Mic capture volume
+RXGAIN=10 # Mic capture volume
 TXGAIN=17 # Speaker playback volume
 
 set -x
