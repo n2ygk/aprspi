@@ -64,6 +64,8 @@ set -x
 # N.B. only works for a single soundcard and because the vendor/product IDs are relatively unique.
 cp 95-myusb.rules /lib/udev/rules.d
 systemctl restart udev
+# I'm unable to find a way to re-trigger udev add of the device without phsyically removing it.
+read -p "Please pop out and replug the DINAH usb device thin hit enter: " x
 
 # set the alsamixer levels
 amixer -c /dev/snd/DINAH sset Mic $RXGAIN
