@@ -65,7 +65,7 @@ set -x
 cp 95-myusb.rules /lib/udev/rules.d
 systemctl restart udev
 # I'm unable to find a way to re-trigger udev add of the device without phsyically removing it.
-read -p "Please pop out and replug the DINAH usb device thin hit enter: " x
+read -p "Please pop out and replug the DINAH usb device then hit enter: " x
 
 # set the alsamixer levels
 amixer -c /dev/snd/DINAH sset Mic $RXGAIN
@@ -100,7 +100,7 @@ cat >/etc/ax25/axports <<EOF
 sm0	$MYCALL	1200	255	2	144.39 MHz (1200 bps)
 EOF
 
-# TODO figure out mapping from /dev/snd/DINAH to $card:
+# N.B. during normal operation (reboot, etc.) /usr/bin/dinah edits this to fix the card number.
 cat >/etc/ax25/soundmodem.conf <<EOF
 <?xml version="1.0"?>
 <modem>
@@ -147,18 +147,22 @@ aprxlog /var/log/aprx/aprx.log
 </interface>
 EOF
 
-cp aprsdigi.service aprsbeacon.service /lib/systemd/system/
+systemctl disable soundmodem
+rm /lib/systemd/system/soundmodem.service
+cp dinah.service aprsdigi.service aprsbeacon.service /lib/systemd/system/
+cp dinah /usr/sbin/
 systemctl daemon-reload
 cp logrotate.aprsdigi /etc/logrotate.d
 
 # turn off avahi as it broadcasts on the AX.25 interface
 sudo apt-get remove -y avahi-daemon
 
-systemctl enable soundmodem
+systemctl enable dinah
 systemctl enable aprsdigi
 systemctl enable aprsbeacon
 systemctl enable aprx
 
-systemctl start soundmodem
+# DINAH should start magically on hot plug
+systemctl start dinah
 systemctl start aprsdigi
 systemctl start aprx
