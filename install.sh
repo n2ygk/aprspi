@@ -148,7 +148,7 @@ aprxlog /var/log/aprx/aprx.log
 
 <beacon>
 beaconmode aprsis
-beacon raw $BEACON
+beacon raw "$BEACON"
 </beacon>
 EOF
 
