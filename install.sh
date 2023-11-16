@@ -12,7 +12,7 @@ FILLTRACE=""
 
 case $MYCALL in
     n2ygk)
-	BEACON='!4116.30N/07355.57W#PHG7300/fill in digipeater n2ygk@weca.org'
+	BEACON='!4109.01N/07349.14W#PHG7300/fill in digipeater n2ygk@weca.org'
 	ALIASES=$FILLALIASES
 	TRACE=$FILLTRACE
 	;;
@@ -145,6 +145,11 @@ aprxlog /var/log/aprx/aprx.log
    #tx-ok        false  # transmitter enable defaults to false
    telem-to-is	 false
 </interface>
+
+<beacon>
+beaconmode aprsis
+beacon raw $BEACON
+</beacon>
 EOF
 
 systemctl disable soundmodem
