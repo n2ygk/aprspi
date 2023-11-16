@@ -159,8 +159,10 @@ cp dinah /usr/sbin/
 systemctl daemon-reload
 cp logrotate.aprsdigi /etc/logrotate.d
 
-# turn off avahi as it broadcasts on the AX.25 interface
-sudo apt-get remove -y avahi-daemon
+# change avahi to exclude the AX25 interface
+systemctl stop avahi-daemon
+sed -i.bak -e 's/^#*deny-interfaces.*$/deny-interfaces=sm0/' /etc/avahi/avahi-daemon.conf
+systemctl start avahi-daemon
 
 systemctl enable dinah
 systemctl enable aprsdigi
