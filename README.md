@@ -5,6 +5,8 @@
 - [Hardware](#hardware)
   * [Cable pinout: VX-4500](#cable-pinout-vx-4500)
 - [Software Dependencies](#software-dependencies)
+- [Installation](#installation)
+- [Appendix: Getting USB hotplug support to work](#appendix-getting-usb-hotplug-support-to-work)
 
 <!-- tocstop -->
 
@@ -38,6 +40,7 @@ dropped by Debian-hams and/or their upstream repos have gone missing.
 
 Everything is configured based on callsign. See [install.sh](./install.sh).
 
+## Installation
 To configure and start the aprsdigi:
 * Use Raspberry Pi Imager and select:
   * Raspberry Pi Device: No Filtering
@@ -51,7 +54,7 @@ To configure and start the aprsdigi:
     * Services
       * Enable SSH w/public-key authentication only
 * Boot up with the CF just written and wait for one-time setup.
-* ssh in just to make sure.
+* ssh in just to make sure. If you can't get in via ssh, use the console and keyboard.
 * Either tar up this directory and copy it to the Pi or use git to clone it:
 ```
 $ ssh n2ygk@n2ygk.local
@@ -75,7 +78,7 @@ n2ygk@n2ygk:~/src $ cd aprspi
 n2ygk@n2ygk:~/src/aprspi $ sudo ./install.sh 
 ```
 
-## Getting USB hotplug support to work
+## Appendix: Getting USB hotplug support to work
 
 Depending on random boot order, the DINAH USB soundcard can show up in different slots.
 To resolve this, add [95-myusb.rules](./95-myusb.rules) to /lib/udev/rules.d to symlink `/dev/snd/DINAH` to the appropriate ControlC* device:
