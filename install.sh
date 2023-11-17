@@ -59,7 +59,35 @@ RXGAIN=10 # Mic capture volume
 TXGAIN=17 # Speaker playback volume
 
 set -x
+# TIGHTEN SECURITY
+# firewall to only allow ssh
+apt-get install -y ufw
+ufw allow ssh
+ufw enable
 
+# we don't need to be multicasting who we are
+apt-get remove -y avahi-daemon
+
+# require both ssh key and google authenticator for ssh login.
+# disable ssh password login.
+apt-get install -y libpam-google-authenticator
+
+cat >/etc/ssh/sshd_config.d/google-authenticator.conf <<EOF
+# require google-authenticator
+ChallengeResponseAuthentication yes
+AuthenticationMethods publickey,keyboard-interactive
+PasswordAuthentication no
+EOF
+
+if ( ! grep -nq 'pam_google_authenticator.so' /etc/pam.d/sshd ); then
+    sed -i.bak \
+	-e 's/^@include common-auth/#@include common-auth\n# two-factor authentication via Google Authenticator\nauth   required   pam_google_authenticator.so/' \
+	/etc/pam.d/sshd
+fi
+
+systemctl restart ssh
+
+# CONFIGURE APRSDIGI
 # Have udev make a symlink for the DINAH soundcard as /dev/snd/DINAH
 # N.B. only works for a single soundcard and because the vendor/product IDs are relatively unique.
 cp 95-myusb.rules /lib/udev/rules.d
@@ -158,11 +186,6 @@ cp dinah.service aprsdigi.service aprsbeacon.service /lib/systemd/system/
 cp dinah /usr/sbin/
 systemctl daemon-reload
 cp logrotate.aprsdigi /etc/logrotate.d
-
-# change avahi to exclude the AX25 interface
-systemctl stop avahi-daemon
-sed -i.bak -e 's/^#*deny-interfaces.*$/deny-interfaces=sm0/' /etc/avahi/avahi-daemon.conf
-systemctl start avahi-daemon
 
 systemctl enable dinah
 systemctl enable aprsdigi
