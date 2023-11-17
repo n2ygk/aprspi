@@ -77,6 +77,22 @@ n2ygk@n2ygk:~/src $ cd aprspi
 # or just let the installer patch and rebuild it from source:
 n2ygk@n2ygk:~/src/aprspi $ sudo ./install.sh 
 ```
+There will be lines of output with two prompts you have to respond to:
+```
++ ufw enable
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+...
+Please pop out and replug the DINAH usb device then hit enter: 
+```
+
+Don't logout yet!
+
+After the installation script finishes, you will only be able to ssh in by having installed `~/.ssh/authorized_keys`.
+Furthermore, you'll need to set up `google-authenticator` (answer 'y' to all the questions):
+```
+
+```
+
 
 ## Appendix: Getting USB hotplug support to work
 
