@@ -63,7 +63,7 @@ Linux n2ygk 6.1.0-rpi4-rpi-v8 #1 SMP PREEMPT Debian 1:6.1.54-1+rpt2 (2023-10-05)
 Last login: Sun Nov 12 16:11:31 2023 from 192.168.1.154
 n2ygk@n2ygk:~ $ sudo -s
 root@n2ygk:/home/n2ygk# apt-get update
-root@n2ygk:/home/n2ygk# apt-get upgrade
+root@n2ygk:/home/n2ygk# apt-get -y upgrade
 ...
 root@n2ygk:/home/n2ygk# apt-get install -y git
 root@n2ygk:/home/n2ygk# exit
