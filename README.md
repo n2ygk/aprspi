@@ -64,6 +64,7 @@ Last login: Sun Nov 12 16:11:31 2023 from 192.168.1.154
 n2ygk@n2ygk:~ $ sudo -s
 root@n2ygk:/home/n2ygk# apt-get update
 root@n2ygk:/home/n2ygk# apt-get upgrade -y
+root@n2ygk:/home/n2ygk# apt autoremove -y
 ...
 root@n2ygk:/home/n2ygk# apt-get install -y git
 root@n2ygk:/home/n2ygk# exit
