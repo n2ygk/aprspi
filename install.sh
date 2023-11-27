@@ -68,6 +68,16 @@ ufw enable
 # we don't need to be multicasting who we are
 apt-get remove -y avahi-daemon
 
+# enable automatic security updates
+apt-get install -y unattended-upgrades
+systemctl stop unattended-upgrades
+cat >> etc/apt/apt.conf.d/50unattended-upgrades <<EOF
+Unattended-Upgrade::Automatic-Reboot "true";
+Unattended-Upgrade::SyslogEnable "true";
+EOF
+systemctl enable unattended-upgrades
+systemctl start unattended-upgrades
+
 # require both ssh key and google authenticator for ssh login.
 # disable ssh password login.
 apt-get install -y libpam-google-authenticator
