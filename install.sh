@@ -67,11 +67,12 @@ ufw enable
 
 # we don't need to be multicasting who we are
 apt-get remove -y avahi-daemon
+apt autoremove -y
 
 # enable automatic security updates
 apt-get install -y unattended-upgrades
 systemctl stop unattended-upgrades
-cat >> etc/apt/apt.conf.d/50unattended-upgrades <<EOF
+cat >> /etc/apt/apt.conf.d/50unattended-upgrades <<EOF
 Unattended-Upgrade::Automatic-Reboot "true";
 Unattended-Upgrade::SyslogEnable "true";
 EOF
