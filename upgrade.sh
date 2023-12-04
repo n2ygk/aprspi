@@ -1,6 +1,8 @@
 #!/bin/sh
 # upgrade from v1.0 to v1.1
 
+set -x
+
 apt-get install -y ufw
 ufw allow ssh
 ufw enable
