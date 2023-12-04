@@ -31,3 +31,5 @@ Unattended-Upgrade::SyslogEnable "true";
 EOF
 systemctl enable unattended-upgrades
 systemctl start unattended-upgrades
+
+unattended-upgrade

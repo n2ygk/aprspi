@@ -89,6 +89,8 @@ Unattended-Upgrade::SyslogEnable "true";
 EOF
 systemctl enable unattended-upgrades
 systemctl start unattended-upgrades
+# run it once now:
+unattended-upgrade
 
 # require both ssh key and google authenticator for ssh login.
 # disable ssh password login.
