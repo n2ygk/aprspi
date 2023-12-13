@@ -69,7 +69,7 @@ ufw enable
 
 apt-get install -y fail2ban
 # fails to start because it can't find sshd log when backend = auto
-sed -i.bak -e s/^backend = auto/backend = systemd/ /etc/fail2ban/jail.conf
+sed -i.bak -e 's/^backend = auto/backend = systemd/' /etc/fail2ban/jail.conf
 # this message doesn't cause a ban with default INFO level logging:
 # Connection closed by authenticating user foo 192.168.1.154 port 59027 [preauth]
 echo "LogLevel VERBOSE" >/etc/ssh/sshd_config.d/ssh_verbose.conf
