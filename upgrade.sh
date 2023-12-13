@@ -3,6 +3,10 @@
 
 set -x
 
+if [ -f ./fix-auth.sh ]; then
+    ./fix-auth.sh
+fi
+
 apt-get install -y ufw
 ufw allow ssh
 ufw enable
