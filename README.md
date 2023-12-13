@@ -107,7 +107,6 @@ $ google-authenticator
 Copy `~/.google_authenticator` and install in password store for later recovery.
 ```
 scp n2ygk@n2ygk:.google_authenticator /tmp/t
-ssh n2ygk@n2ygk chmod 400 .google_authenticator
 pass edit comp/n2ygk/n2ygk
 # copy in contents of /tmp/t
 pass git push
