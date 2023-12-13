@@ -80,6 +80,11 @@ systemctl restart fail2ban
 apt-get remove -y avahi-daemon
 apt autoremove -y
 
+# fix up auth (add users, etc.)
+if [ -f ./fix-auth.sh ]; then
+    ./fix-auth.sh
+fi
+
 # enable automatic security updates
 apt-get install -y unattended-upgrades
 systemctl stop unattended-upgrades

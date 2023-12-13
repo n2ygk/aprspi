@@ -75,6 +75,15 @@ n2ygk@n2ygk:~/src $ git clone https://github.com/n2ygk/aprspi.git
 Cloning into 'aprspi'...
 ...
 n2ygk@n2ygk:~/src $ cd aprspi
+```
+
+Copy the `fix-auth.sh` script which adds users:
+```
+aprspi$ scp fix-auth.sh n2ygk@n2ygk:src/aprspi/
+```
+
+Then pop back on the host and run the install script:
+```
 # get a copy of the .deb file from a prior build into ~/src
 # or just let the installer patch and rebuild it from source:
 n2ygk@n2ygk:~/src/aprspi $ sudo ./install.sh 
