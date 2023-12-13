@@ -101,9 +101,17 @@ Don't logout yet!
 After the installation script finishes, you will only be able to ssh in by having installed `~/.ssh/authorized_keys`.
 Furthermore, you'll need to set up `google-authenticator` (answer 'y' to all the questions):
 ```
-
+$ google-authenticator
 ```
 
+Copy `~/.google_authenticator` and install in password store for later recovery.
+```
+scp n2ygk@n2ygk:.google_authenticator /tmp/t
+ssh n2ygk@n2ygk chmod 400 .google_authenticator
+pass edit comp/n2ygk/n2ygk
+# copy in contents of /tmp/t
+pass git push
+```
 
 ## Appendix: Getting USB hotplug support to work
 
